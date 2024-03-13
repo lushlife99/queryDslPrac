@@ -5,13 +5,11 @@ import com.example.querydslprac.dto.QMemberDto;
 import com.example.querydslprac.dto.UserDto;
 import com.example.querydslprac.entity.Member;
 import com.example.querydslprac.entity.QMember;
-import com.example.querydslprac.entity.QTeam;
 import com.example.querydslprac.entity.Team;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -21,12 +19,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -107,28 +103,6 @@ public class QuerydslBasicTest {
 
     }
 
-    @Test
-    public void resultFetch() {
-        List<Member> fetch = queryFactory
-                .selectFrom(member)
-                .fetch();
-
-        Member fetchOne = queryFactory
-                .selectFrom(member)
-                .fetchOne();
-
-        Member fetchFirst = queryFactory
-                .selectFrom(member)
-                .fetchFirst();
-
-        QueryResults<Member> results = queryFactory
-                .selectFrom(member)
-                .fetchResults();
-
-        results.getTotal();
-        List<Member> content = results.getResults();
-
-    }
 
     /**
      * 회원 정렬 순서
@@ -482,7 +456,7 @@ public class QuerydslBasicTest {
      * JPQL을 사용해서 프로젝션 반환 결과값을 Dto로 조회
      * new 명령어를 사용하고 패키지전체 경로를 지정하여 생성자를 사용한다. 불편함
      */
-    
+
     @Test
     public void findDtoByJPQL() {
         List<MemberDto> resultList = em.createQuery("select new com.example.querydslprac.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
